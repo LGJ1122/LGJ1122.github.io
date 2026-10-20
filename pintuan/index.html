@@ -9,149 +9,174 @@
 <meta property="og:description" content="好友邀请你一起拼团，还差1人成团，点开参团～">
 <style>
   :root{
-    --pink:#ff8fb8; --pink2:#ff5c98; --lav:#cdbcff; --sky:#bfe3ff; --cream:#fff8e7; --mint:#bff2dc; --lemon:#ffe99a;
-    --ink:#5b3a55; --mute:#b08aa5;
+    --pink:#ff9ec4; --pink2:#ff6fa8; --blue:#8fd3ff; --blue2:#5bb8f5; --lav:#cdbcff; --lemon:#ffe99a;
+    --ink:#4d4a6b; --mute:#93a0bf; --line:#5d6f8f;
   }
   *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
   html,body{height:100%}
   body{
     font-family:"Yuanti SC","YouYuan","PingFang SC","HarmonyOS Sans SC","Microsoft YaHei",sans-serif;color:var(--ink);
-    background:
-      radial-gradient(circle,rgba(255,255,255,.9) 2px,transparent 3px) 0 0/26px 26px,
-      linear-gradient(180deg,#ffe3ef 0%,#f1e6ff 55%,#dff1ff 100%);
-    background-attachment:fixed;
+    background:linear-gradient(180deg,#a9dcff 0%,#d4eeff 38%,#fbefff 72%,#ffe3ef 100%) fixed;
     max-width:480px;margin:0 auto;position:relative;overflow-x:hidden
   }
   button{font-family:inherit}
-  /* 漂浮贴纸 */
-  .stk{position:fixed;bottom:-40px;z-index:0;pointer-events:none;animation:rise linear forwards;opacity:.85}
-  @keyframes rise{to{transform:translateY(-115vh) rotate(40deg);opacity:0}}
+
+  /* ---------- 天空层：光斑 / 云朵 / 贴纸 ---------- */
+  #bg{position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:0;pointer-events:none}
+  .cl{position:fixed;left:0;z-index:0;pointer-events:none;background:#fff;border-radius:999px;opacity:.9;
+    box-shadow:0 8px 18px rgba(120,170,230,.18);animation:cloudmove linear infinite}
+  .cl::before,.cl::after{content:"";position:absolute;background:#fff;border-radius:50%}
+  .cl::before{width:52%;height:170%;top:-78%;left:12%}
+  .cl::after{width:38%;height:130%;top:-52%;right:13%}
+  @keyframes cloudmove{from{transform:translateX(-45vw)}to{transform:translateX(130vw)}}
+  .stk{position:fixed;bottom:-40px;z-index:0;pointer-events:none;animation:rise linear forwards;opacity:.9}
+  @keyframes rise{0%{transform:translateY(0) rotate(0)}50%{transform:translateY(-58vh) translateX(18px) rotate(18deg)}100%{transform:translateY(-118vh) translateX(-10px) rotate(36deg);opacity:0}}
+  .rip{position:fixed;z-index:55;pointer-events:none;width:20px;height:20px;margin:-10px 0 0 -10px;border-radius:50%;
+    border:3px solid rgba(255,255,255,.95);box-shadow:0 0 12px rgba(143,211,255,.9);animation:rip .7s ease-out forwards}
+  @keyframes rip{to{transform:scale(6);opacity:0}}
 
   /* ============ 拼团页 ============ */
   #pin{position:relative;z-index:1;padding-bottom:120px}
-  .top{display:flex;justify-content:space-between;align-items:center;padding:14px 18px 8px;font-size:14px;color:var(--pink2);font-weight:800}
-  .top span{background:#fff;border-radius:20px;padding:3px 12px;font-size:12px;box-shadow:0 2px 8px rgba(255,92,152,.18)}
-  .card{background:#fff;border-radius:28px;margin:6px 14px 14px;padding:14px;box-shadow:0 10px 30px rgba(255,120,170,.22);position:relative}
-  .pic{height:270px;border-radius:22px;position:relative;overflow:hidden;display:flex;align-items:flex-end;justify-content:center;
-    background:radial-gradient(circle at 25% 20%,#fff6c9 0,transparent 40%),linear-gradient(160deg,#ffd0e2,#e4d4ff 60%,#cfe9ff)}
-  .pic .cloud{position:absolute;font-size:42px;opacity:.9;animation:drift 6s ease-in-out infinite}
-  .pic .c1{top:16px;left:18px}.pic .c2{top:46px;right:20px;font-size:34px;animation-delay:-2s}
-  @keyframes drift{50%{transform:translateX(14px)}}
-  .pic .pair{display:flex;align-items:flex-end;gap:2px;margin-bottom:12px;position:relative}
-  .pic .pair .mas.cat{width:150px}
-  .pic .pair .mas.bun{width:122px;margin-left:-8px}
-  .pic .heart{position:absolute;left:50%;top:-14px;transform:translateX(-50%);font-size:34px;animation:beat 1.2s infinite}
+  .top{display:flex;justify-content:space-between;align-items:center;padding:16px 18px 8px;font-size:15px;color:#fff;font-weight:900;
+    text-shadow:0 2px 6px rgba(80,140,220,.45)}
+  .top span{background:rgba(255,255,255,.9);color:var(--pink2);border-radius:20px;padding:3px 12px;font-size:12px;text-shadow:none;
+    box-shadow:0 2px 8px rgba(91,184,245,.3)}
+  .card{background:rgba(255,255,255,.92);border-radius:28px;margin:6px 14px 14px;padding:14px;position:relative;
+    box-shadow:0 12px 34px rgba(91,184,245,.28),inset 0 0 0 2px rgba(255,255,255,.9)}
+  .pic{height:278px;border-radius:22px;position:relative;overflow:hidden;display:flex;align-items:flex-end;justify-content:center;
+    background:radial-gradient(circle at 78% 18%,#fff8d6 0,transparent 32%),linear-gradient(170deg,#b5e2ff 0%,#dcefff 55%,#ffe1ef 100%)}
+  .pic .rb{position:absolute;left:-10%;right:-10%;top:58%;height:200px;border-radius:50% 50% 0 0;opacity:.35;
+    background:radial-gradient(circle at 50% 100%,transparent 58%,#ff9ec4 59%,#ff9ec4 63%,#ffe99a 64%,#ffe99a 68%,#9fe3c4 69%,#9fe3c4 73%,#8fd3ff 74%,#8fd3ff 78%,#cdbcff 79%,#cdbcff 83%,transparent 84%)}
+  .pic .pc{position:absolute;background:#fff;border-radius:999px;animation:drift 7s ease-in-out infinite}
+  .pic .pc::before{content:"";position:absolute;background:#fff;border-radius:50%;width:50%;height:160%;top:-70%;left:20%}
+  .pic .p1{width:70px;height:22px;top:30px;left:22px}.pic .p2{width:52px;height:16px;top:62px;right:28px;animation-delay:-3s}
+  @keyframes drift{50%{transform:translateX(16px)}}
+  .pic .tw{position:absolute;color:#fff;font-size:16px;animation:tw 1.8s ease-in-out infinite;text-shadow:0 0 8px #fff}
+  @keyframes tw{50%{opacity:.2;transform:scale(.6)}}
+  .pic .pair{display:flex;align-items:flex-end;margin-bottom:10px;position:relative}
+  .pic .pair .mas.cat{width:128px;margin-right:-10px}
+  .pic .pair .mas.dog{width:170px}
+  .pic .heart{position:absolute;left:46%;top:-26px;transform:translateX(-50%);font-size:32px;animation:beat 1.2s infinite}
   .corner{position:absolute;top:12px;left:12px;background:var(--lemon);color:#9a6a00;font-size:12px;font-weight:800;padding:4px 10px;border-radius:12px;
     box-shadow:0 3px 0 #f3d36a;z-index:2}
   .price{display:flex;align-items:baseline;gap:8px;margin-top:14px}
   .price .now{font-size:38px;font-weight:900;color:var(--pink2)}
   .price .now small{font-size:18px}
   .price .old{font-size:13px;color:var(--mute);text-decoration:line-through}
-  .price .badge{margin-left:auto;font-size:12px;color:#fff;background:linear-gradient(90deg,var(--pink),var(--pink2));padding:3px 10px;border-radius:12px}
+  .price .badge{margin-left:auto;font-size:12px;color:#fff;background:linear-gradient(90deg,var(--blue2),var(--pink2));padding:3px 10px;border-radius:12px}
   h1{font-size:16px;line-height:1.6;margin-top:8px;font-weight:800}
   .tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
-  .tags i{font-style:normal;font-size:11px;color:#8b6fc9;background:#efe8ff;border-radius:10px;padding:2px 9px}
+  .tags i{font-style:normal;font-size:11px;color:#3f8fd0;background:#e3f3ff;border-radius:10px;padding:2px 9px}
   .meta{display:flex;justify-content:space-between;color:var(--mute);font-size:12px;margin-top:10px}
-  .timer{background:linear-gradient(90deg,#fff0f6,#f3ecff);border-radius:16px;padding:10px 14px;margin-top:12px;font-size:13px;
+  .timer{background:linear-gradient(90deg,#e8f6ff,#fff0f6);border-radius:16px;padding:10px 14px;margin-top:12px;font-size:13px;
     display:flex;justify-content:space-between;align-items:center;color:var(--pink2)}
   .timer .t{font-weight:900;font-variant-numeric:tabular-nums;letter-spacing:1px}
-  .team{background:#fff;border-radius:28px;margin:0 14px 14px;padding:18px 16px;text-align:center;box-shadow:0 8px 24px rgba(180,150,255,.2)}
+  .team{background:rgba(255,255,255,.92);border-radius:28px;margin:0 14px 14px;padding:18px 16px;text-align:center;box-shadow:0 10px 28px rgba(91,184,245,.22)}
   .team p{font-size:15px;font-weight:700}
   .team p em{color:var(--pink2);font-style:normal;font-weight:900;font-size:20px}
   .avs{display:flex;justify-content:center;gap:18px;margin:16px 0 6px;align-items:center}
-  .av{width:66px;height:66px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:30px;position:relative;
-    background:#fff;border:3px solid #fff;box-shadow:0 4px 14px rgba(255,120,170,.3)}
-  .av .mas{width:54px}
+  .av{width:68px;height:68px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:30px;position:relative;
+    background:#eaf6ff;border:3px solid #fff;box-shadow:0 4px 14px rgba(91,184,245,.35)}
+  .av .mas{width:62px}
   .av.me i{position:absolute;top:-10px;left:-8px;background:var(--pink2);color:#fff;font-size:11px;font-style:normal;padding:2px 8px;border-radius:10px}
-  .av.empty{border:3px dashed var(--pink);color:var(--pink);font-weight:900;animation:blink 1.3s infinite;box-shadow:none;background:transparent}
-  .av.filled{background:linear-gradient(135deg,#fff3b0,#ffc9de);animation:none;color:#fff;border:3px solid #fff;box-shadow:0 4px 14px rgba(255,120,170,.3)}
-  .plus{font-size:22px;color:var(--pink)}
+  .av.empty{border:3px dashed var(--blue2);color:var(--blue2);font-weight:900;animation:blink 1.3s infinite;box-shadow:none;background:transparent}
+  .av.filled{background:linear-gradient(135deg,#fff3b0,#ffc9de);animation:none;color:#fff;border:3px solid #fff;box-shadow:0 4px 14px rgba(255,120,170,.35)}
+  .plus{font-size:22px;color:var(--blue2)}
   @keyframes blink{50%{opacity:.35}}
   .rules{background:rgba(255,255,255,.75);border-radius:24px;margin:0 14px 20px;padding:14px 18px;font-size:12px;color:var(--mute);line-height:2}
   .rules b{color:var(--ink);font-size:14px;display:block;margin-bottom:2px}
-  .bar{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;padding:12px 18px calc(14px + env(safe-area-inset-bottom));z-index:5;
-    background:linear-gradient(180deg,rgba(255,255,255,0),rgba(255,255,255,.95) 40%)}
-  .btn{width:100%;border:0;border-radius:30px;height:56px;font-size:18px;font-weight:900;color:#fff;letter-spacing:1px;
-    background:linear-gradient(90deg,#ff9ec4,#ff5c98);box-shadow:0 5px 0 #e63f80,0 10px 22px rgba(255,92,152,.4);cursor:pointer;animation:wob 1.8s infinite}
-  .btn:active{transform:translateY(4px);box-shadow:0 1px 0 #e63f80}
+  .bar{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;padding:14px 18px calc(14px + env(safe-area-inset-bottom));z-index:5;
+    background:linear-gradient(180deg,rgba(255,255,255,0),rgba(255,255,255,.92) 45%)}
+  .btn{position:relative;overflow:hidden;width:100%;border:0;border-radius:30px;height:56px;font-size:18px;font-weight:900;color:#fff;letter-spacing:1px;
+    background:linear-gradient(90deg,#7cc8ff,#ff8fbd 60%,#ff6fa8);box-shadow:0 5px 0 #e3558f,0 12px 24px rgba(255,111,168,.38);cursor:pointer;animation:wob 1.8s infinite}
+  .btn::after{content:"";position:absolute;top:0;left:-60%;width:40%;height:100%;transform:skewX(-20deg);
+    background:linear-gradient(90deg,transparent,rgba(255,255,255,.7),transparent);animation:shine 2.4s ease-in-out infinite}
+  @keyframes shine{0%{left:-60%}60%,100%{left:130%}}
+  .btn:active{transform:translateY(4px);box-shadow:0 1px 0 #e3558f}
   @keyframes wob{0%,100%{transform:rotate(0)}10%{transform:rotate(-1.6deg) scale(1.02)}20%{transform:rotate(1.6deg) scale(1.02)}30%{transform:rotate(0)}}
 
-  #loading{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(255,230,243,.92);z-index:30;display:none;align-items:center;justify-content:center;
-    flex-direction:column;gap:14px;font-size:16px;font-weight:800;color:var(--pink2)}
-  #loading .mas{width:120px}
-  .dots i{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--pink);margin:0 3px;animation:jump .9s infinite}
+  #loading{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(225,243,255,.94);z-index:30;display:none;align-items:center;justify-content:center;
+    flex-direction:column;gap:14px;font-size:16px;font-weight:800;color:var(--blue2)}
+  #loading .mas{width:140px}
+  .dots i{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--blue2);margin:0 3px;animation:jump .9s infinite}
   .dots i:nth-child(2){animation-delay:.15s}.dots i:nth-child(3){animation-delay:.3s}
   @keyframes jump{50%{transform:translateY(-8px)}}
 
-  /* ============ 聊天页 ============ */
-  #chat{position:fixed;top:0;left:0;right:0;bottom:0;z-index:20;display:none;flex-direction:column;max-width:480px;margin:0 auto;
-    background:
-      radial-gradient(circle,rgba(255,255,255,.85) 2px,transparent 3px) 0 0/26px 26px,
-      linear-gradient(180deg,#ffe0ee 0%,#efe3ff 55%,#d9efff 100%);animation:fadein .8s ease}
+  /* ============ 聊天页（背景透明，直接用天空层） ============ */
+  #chat{position:fixed;top:0;left:0;right:0;bottom:0;z-index:20;display:none;flex-direction:column;max-width:480px;margin:0 auto;animation:fadein .8s ease}
   @keyframes fadein{from{opacity:0}to{opacity:1}}
-  .hd{display:flex;align-items:center;gap:10px;padding:12px 16px;background:rgba(255,255,255,.8);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
-    box-shadow:0 3px 14px rgba(255,120,170,.18);position:relative;z-index:3}
-  .hd .ava{width:44px;height:44px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(255,120,170,.3)}
-  .hd .ava .mas{width:36px}
+  .hd{display:flex;align-items:center;gap:10px;padding:12px 16px;background:rgba(255,255,255,.72);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+    box-shadow:0 3px 16px rgba(91,184,245,.22);position:relative;z-index:3}
+  .ava{width:46px;height:46px;border-radius:50%;background:#eaf6ff;display:flex;align-items:center;justify-content:center;flex:none;
+    box-shadow:0 2px 8px rgba(91,184,245,.35);border:2px solid #fff;overflow:hidden}
+  .ava .mas{width:44px;animation:none}
   .hd .nm{font-weight:900;font-size:16px}
-  .hd .st{font-size:12px;color:var(--pink2);min-height:16px}
-  .hd .ok{margin-left:auto;font-size:12px;color:#fff;background:linear-gradient(90deg,var(--pink),var(--pink2));padding:5px 12px;border-radius:14px;font-weight:800;animation:wob 2.4s infinite}
+  .hd .st{font-size:12px;color:var(--blue2);min-height:16px}
+  .hd .ok{margin-left:auto;font-size:12px;color:#fff;background:linear-gradient(90deg,var(--blue2),var(--pink2));padding:5px 12px;border-radius:14px;font-weight:800;animation:wob 2.4s infinite}
   #msgs{flex:1;overflow-y:auto;padding:14px 14px 20px;position:relative;z-index:2;scroll-behavior:smooth}
   .row{display:flex;gap:8px;margin:12px 0;align-items:flex-end;animation:pop .45s cubic-bezier(.2,1.7,.4,1) both;transform-origin:left bottom}
   .row.me{flex-direction:row-reverse;transform-origin:right bottom}
   @keyframes pop{from{transform:scale(.4) translateY(14px);opacity:0}to{transform:none;opacity:1}}
-  .row .ava{width:38px;height:38px;border-radius:50%;background:#fff;flex:none;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(255,120,170,.3)}
-  .row .ava .mas{width:30px}
-  .bub{max-width:76%;padding:11px 15px;border-radius:20px 20px 20px 6px;background:#fff;font-size:16px;line-height:1.75;
-    box-shadow:0 4px 14px rgba(255,120,170,.18);word-break:break-word}
-  .row.me .bub{border-radius:20px 20px 6px 20px;color:#fff;background:linear-gradient(135deg,#ff9ec4,#ff5c98);box-shadow:0 4px 14px rgba(255,92,152,.4)}
+  .row .ava{width:40px;height:40px}
+  .row .ava .mas{width:38px}
+  .bub{max-width:76%;padding:11px 15px;border-radius:20px 20px 20px 6px;background:rgba(255,255,255,.95);font-size:16px;line-height:1.75;
+    box-shadow:0 6px 16px rgba(91,184,245,.22);word-break:break-word;position:relative}
+  .row.me .bub{border-radius:20px 20px 6px 20px;color:#fff;background:linear-gradient(135deg,#ffa9cc,#ff6fa8);box-shadow:0 6px 16px rgba(255,111,168,.4)}
   .bub b{color:var(--pink2)}
-  .bub.big{font-size:44px;line-height:1.3;padding:8px 18px}
+  .bub.sticker{background:transparent;box-shadow:none;padding:0}
+  .bub.sticker .mas{display:block;width:150px;animation:dance .8s ease-in-out infinite;transform-origin:50% 90%}
+  .bub.sticker.wild .mas{animation:dance .36s ease-in-out infinite}
+  @keyframes dance{0%,100%{transform:rotate(-8deg) translateY(0)}50%{transform:rotate(8deg) translateY(-10px)}}
   .typing .bub{padding:14px 18px}
-  .typing .bub i{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--pink);margin:0 3px;animation:jump .9s infinite}
+  .typing .bub i{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--blue2);margin:0 3px;animation:jump .9s infinite}
   .typing .bub i:nth-child(2){animation-delay:.15s}.typing .bub i:nth-child(3){animation-delay:.3s}
-  .sysmsg{text-align:center;font-size:12px;color:var(--mute);margin:14px 0;animation:pop .5s both}
-  .sysmsg span{background:rgba(255,255,255,.7);padding:3px 12px;border-radius:12px}
+  .sysmsg{text-align:center;font-size:12px;color:#6b8db5;margin:14px 0;animation:pop .5s both}
+  .sysmsg span{background:rgba(255,255,255,.75);padding:3px 12px;border-radius:12px}
 
-  .cpn{display:flex;margin:10px 0 10px 46px;max-width:300px;border-radius:18px;background:#fff;overflow:hidden;position:relative;
-    box-shadow:0 6px 18px rgba(255,120,170,.25);animation:pop .55s cubic-bezier(.2,1.7,.4,1) both}
+  .cpn{display:flex;margin:10px 0 10px 48px;max-width:300px;border-radius:18px;background:#fff;overflow:hidden;position:relative;
+    box-shadow:0 8px 20px rgba(91,184,245,.25);animation:pop .55s cubic-bezier(.2,1.7,.4,1) both}
   .cpn .l{width:78px;display:flex;align-items:center;justify-content:center;font-size:34px;flex:none}
-  .cpn .r{padding:10px 14px;border-left:2px dashed #ffd0e2;flex:1}
+  .cpn .r{padding:10px 14px;border-left:2px dashed #cfe8ff;flex:1}
   .cpn .r b{display:block;font-size:15px}
   .cpn .r small{display:block;font-size:12px;color:var(--mute);line-height:1.5;margin-top:2px}
   .cpn .r em{font-style:normal;font-size:11px;color:#fff;background:var(--pink2);border-radius:8px;padding:1px 7px;display:inline-block;margin-top:4px}
-  .cpn::before,.cpn::after{content:"";position:absolute;left:68px;width:14px;height:14px;border-radius:50%;background:#f2e4ff}
+  .cpn::before,.cpn::after{content:"";position:absolute;left:68px;width:14px;height:14px;border-radius:50%;background:#e4f3ff}
   .cpn::before{top:-7px}.cpn::after{bottom:-7px}
+  .cpn::selection{background:none}
+  .cpn .shine{position:absolute;top:0;left:-50%;width:30%;height:100%;transform:skewX(-20deg);
+    background:linear-gradient(90deg,transparent,rgba(255,255,255,.8),transparent);animation:shine 2.6s ease-in-out infinite}
 
-  .foot{padding:10px 14px calc(12px + env(safe-area-inset-bottom));background:rgba(255,255,255,.85);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  .foot{padding:10px 14px calc(12px + env(safe-area-inset-bottom));background:rgba(255,255,255,.75);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
     position:relative;z-index:3;min-height:78px}
   .fake{display:flex;align-items:center;gap:8px;color:var(--mute);font-size:14px}
-  .fake div{flex:1;background:#fff0f6;border-radius:22px;padding:12px 16px}
+  .fake div{flex:1;background:#eef8ff;border-radius:22px;padding:12px 16px}
   .fake span{font-size:24px}
   .chips{display:none;gap:12px;justify-content:center;align-items:center;min-height:54px}
   .chips.on{display:flex;animation:pop .5s cubic-bezier(.2,1.7,.4,1) both}
   .yes,.no{border:0;border-radius:28px;padding:14px 24px;font-size:17px;font-weight:900;cursor:pointer}
-  .yes{color:#fff;background:linear-gradient(90deg,#ff9ec4,#ff5c98);box-shadow:0 4px 0 #e63f80,0 8px 18px rgba(255,92,152,.4);animation:wob 1.6s infinite;transition:transform .2s}
-  .no{color:#8b6fc9;background:#efe8ff;box-shadow:0 4px 0 #d5c6fa;transition:left .22s,top .22s}
+  .yes{color:#fff;background:linear-gradient(90deg,#ffa9cc,#ff6fa8);box-shadow:0 4px 0 #e3558f,0 8px 18px rgba(255,111,168,.4);animation:wob 1.6s infinite;transition:transform .2s}
+  .no{color:#3f8fd0;background:#e3f3ff;box-shadow:0 4px 0 #b9defc;transition:left .22s,top .22s}
   .no.run{position:fixed;z-index:60}
   .replay{display:block;margin:14px auto 40px;border:0;background:#fff;color:var(--pink2);font-size:14px;font-weight:800;padding:10px 22px;border-radius:22px;
-    box-shadow:0 4px 12px rgba(255,120,170,.25);cursor:pointer;animation:pop .5s both}
-  .tip{position:absolute;top:70px;left:0;right:0;text-align:center;font-size:11px;color:var(--mute);z-index:1;pointer-events:none}
+    box-shadow:0 4px 12px rgba(91,184,245,.3);cursor:pointer;animation:pop .5s both}
+  .tip{position:absolute;top:76px;left:0;right:0;text-align:center;font-size:11px;color:#6b8db5;z-index:1;pointer-events:none}
   #fx{position:fixed;top:0;left:0;right:0;bottom:0;z-index:50;pointer-events:none}
   .mas{animation:bob 2.6s ease-in-out infinite;overflow:visible}
   @keyframes bob{50%{transform:translateY(-4px) rotate(-1.5deg)}}
   @keyframes beat{0%,100%{transform:translateX(-50%) scale(1)}50%{transform:translateX(-50%) scale(1.18)}}
-  /* 奶龙头像 & 表情包 */
-  .ava,.av.me{background:#fff7d1 !important}
-  .bub.sticker{background:transparent;box-shadow:none;padding:0}
-  .bub.sticker .mas{display:block;width:118px;animation:dance .7s ease-in-out infinite;transform-origin:50% 90%}
-  .bub.sticker.wild .mas{animation:dance .35s ease-in-out infinite}
-  @keyframes dance{0%,100%{transform:rotate(-9deg) translateY(0)}50%{transform:rotate(9deg) translateY(-10px)}}
   .eye{transform-box:fill-box;transform-origin:center;animation:eyeblink 4s infinite}
   @keyframes eyeblink{0%,93%,100%{transform:scaleY(1)}96%{transform:scaleY(.08)}}
+  .earL,.earR{transform-box:fill-box;animation:flapL 2.2s ease-in-out infinite}
+  .earL{transform-origin:100% 30%}
+  .earR{transform-origin:0% 30%;animation-name:flapR}
+  @keyframes flapL{0%,70%,100%{transform:rotate(0)}80%{transform:rotate(-14deg)}90%{transform:rotate(4deg)}}
+  @keyframes flapR{0%,70%,100%{transform:rotate(0)}80%{transform:rotate(14deg)}90%{transform:rotate(-4deg)}}
+  .wild .earL,.wild .earR{animation-duration:.5s}
 </style>
 </head>
 <body>
+
+<canvas id="bg"></canvas>
 
 <div id="pin">
   <div class="top"><b>🎀 好友邀请你拼团</b><span>仅限 1 人</span></div>
@@ -159,11 +184,14 @@
   <div class="card">
     <div class="pic">
       <span class="corner">限量 · 全球仅1份</span>
-      <span class="cloud c1">☁️</span><span class="cloud c2">☁️</span>
+      <div class="rb"></div>
+      <span class="pc p1"></span><span class="pc p2"></span>
+      <span class="tw" style="top:24px;right:24px">✦</span><span class="tw" style="top:96px;left:30px;animation-delay:-.8s;font-size:12px">✦</span>
+      <span class="tw" style="top:120px;right:60px;animation-delay:-1.3s;font-size:10px">✦</span>
       <div class="pair">
         <span class="heart">💗</span>
         <span data-m="cat" class="mas cat"></span>
-        <span data-m="bun" class="mas bun"></span>
+        <span data-m="dog" class="mas dog"></span>
       </div>
     </div>
     <div class="price">
@@ -172,7 +200,7 @@
       <span class="badge">拼团立省 全部</span>
     </div>
     <h1>【刘紫依专属】超爱你の小团长 ×1　包邮包甜包宠 · 不退不换</h1>
-    <div class="tags"><i>🍓 甜度满格</i><i>🧸 会抱抱</i><i>🐱 超黏人</i><i>✅ 终身售后</i></div>
+    <div class="tags"><i>☁️ 软乎乎</i><i>🍓 甜度满格</i><i>🐶 超黏人</i><i>✅ 终身售后</i></div>
     <div class="meta"><span>已拼 9,999+ 件</span><span>好评率 100%</span><span>发货地：你心里</span></div>
     <div class="timer"><span>⏰ 拼团即将结束</span><span class="t" id="cd">23:59:59.9</span></div>
   </div>
@@ -180,7 +208,7 @@
   <div class="team">
     <p>还差 <em>1</em> 人，就能拼团成功啦～</p>
     <div class="avs">
-      <div class="av me"><span data-m="nai" class="mas"></span><i>团长</i></div>
+      <div class="av me"><span data-m="dog" class="mas"></span><i>团长</i></div>
       <span class="plus">＋</span>
       <div class="av empty" id="slot">?</div>
     </div>
@@ -198,14 +226,14 @@
   <div class="bar"><button class="btn" id="join">一键参团 · 立即拼到我 🎀</button></div>
 </div>
 
-<div id="loading"><span data-m="nai" class="mas"></span><span id="ltxt">正在联系团长…</span><span class="dots"><i></i><i></i><i></i></span></div>
+<div id="loading"><span data-m="dog" class="mas"></span><span id="ltxt">正在联系团长…</span><span class="dots"><i></i><i></i><i></i></span></div>
 
 <canvas id="fx"></canvas>
 
 <div id="chat">
   <div class="hd">
-    <div class="ava"><span data-m="nai" class="mas"></span></div>
-    <div><div class="nm" id="who">你的专属团长 🐲</div><div class="st" id="st">在线</div></div>
+    <div class="ava"><span data-m="dog" class="mas"></span></div>
+    <div><div class="nm" id="who">你的专属团长 🐶</div><div class="st" id="st">在线</div></div>
     <div class="ok">拼团成功 ✅</div>
   </div>
   <div class="tip" id="tip">轻触屏幕可以加速哦 ✨</div>
@@ -213,7 +241,7 @@
   <div class="foot">
     <div class="fake" id="fake"><div>说点什么吧…</div><span>🥰</span></div>
     <div class="chips" id="chips">
-      <button class="yes" id="yes">要！！🐰💗</button>
+      <button class="yes" id="yes">要！！🐶💗</button>
       <button class="no" id="no">再想想</button>
     </div>
   </div>
@@ -232,11 +260,11 @@ const MSGS = [
   "你是我今日份快乐的唯一来源，没有之一！咖啡可以不喝，你不可以不理我（小声）☕",
   "我已经想好了：你开心我就陪你开心，你 emo 我就陪你 emo，你饿了我负责找吃的 🍜",
   "喜欢你这件事没有说明书，没有售后，也没有退货政策，只有一个功能：<b>越来越喜欢</b> 🔄",
-  "你要是变成一只小猫猫，我就是全世界最会宠猫的人 🐱 变成星星的话，我就天天抬头看你 ⭐",
+  "你要是变成一朵云，我就当一整片天空 ☁️ 你要是变成一颗星星，我就天天抬头看你 ⭐",
   "没办法，你太可爱了，我的心早就叛变到你那边了，拦都拦不住 🏃💨💗"
 ];
 const ASK  = "所以！我要问你一个很严肃的问题 🥺👉👈<br>{TO}，要不要做我的专属团员呀？包邮、包甜、包宠那种 🎀";
-const NO_TEXTS = ["再想想","诶？别点我 🙈","你抓不到我的～","点旁边那个啦 🥺","喵呜？？","再躲我就哭了 😭","求求你了 🧸"];
+const NO_TEXTS = ["再想想","诶？别点我 🙈","你抓不到我的～","点旁边那个啦 🥺","汪呜？？","再躲我就哭了 😭","求求你了 🧸"];
 const COUPONS = [
   {e:"🤗",bg:"#ffe3ef",t:"抱抱券 ×∞",s:"想抱就抱，随叫随到",tag:"永久有效"},
   {e:"🧋",bg:"#fff0c9",t:"奶茶券 ×999",s:"全糖少冰，任意口味，团长买单",tag:"不限次数"},
@@ -247,10 +275,23 @@ const COUPONS = [
 
 const $=id=>document.getElementById(id);
 const rnd=(a,b)=>a+Math.random()*(b-a);
+const pick=a=>a[Math.random()*a.length|0];
 const dpr=Math.min(window.devicePixelRatio||1,2);
 const sub=s=>s.replaceAll("{TO}",TO).replaceAll("{FROM}",FROM);
 
-/* ---------- 原创小动物（猫 & 兔） ---------- */
+/* ---------- 原创小动物：大耳朵狗 & 小猫 ---------- */
+const L='stroke="#5d6f8f" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"';
+const DOG=`<svg viewBox="0 0 140 112" width="100%" aria-hidden="true">
+<g class="earL"><ellipse cx="28" cy="50" rx="30" ry="13" transform="rotate(-18 28 50)" fill="#fff" ${L}/>
+<ellipse cx="26" cy="52" rx="20" ry="6" transform="rotate(-18 26 52)" fill="#eaf4ff"/></g>
+<g class="earR"><ellipse cx="112" cy="50" rx="30" ry="13" transform="rotate(18 112 50)" fill="#fff" ${L}/>
+<ellipse cx="114" cy="52" rx="20" ry="6" transform="rotate(18 114 52)" fill="#eaf4ff"/></g>
+<ellipse cx="70" cy="62" rx="41" ry="37" fill="#fff" ${L}/>
+<path d="M64 28 Q70 20 76 28" fill="none" stroke="#5d6f8f" stroke-width="2.6" stroke-linecap="round"/>
+<g fill="#3d7fd9"><ellipse class="eye" cx="55" cy="61" rx="4.6" ry="6.4"/><ellipse class="eye" cx="85" cy="61" rx="4.6" ry="6.4"/></g>
+<circle cx="53.6" cy="58.6" r="1.8" fill="#fff"/><circle cx="83.6" cy="58.6" r="1.8" fill="#fff"/>
+<ellipse cx="44" cy="74" rx="7.5" ry="4.8" fill="#ffb3c8" opacity=".9"/><ellipse cx="96" cy="74" rx="7.5" ry="4.8" fill="#ffb3c8" opacity=".9"/>
+<path d="M63 74 Q66.5 78.5 70 74 Q73.5 78.5 77 74" fill="none" stroke="#5d6f8f" stroke-width="2.4" stroke-linecap="round"/></svg>`;
 const S='stroke="#4a3345" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"';
 const CAT=`<svg viewBox="0 0 120 100" width="100%" aria-hidden="true">
 <g ${S}><path d="M20 44 L17 9 L50 25 Z" fill="#fff"/><path d="M100 44 L103 9 L70 25 Z" fill="#fff"/>
@@ -261,27 +302,7 @@ const CAT=`<svg viewBox="0 0 120 100" width="100%" aria-hidden="true">
 <g fill="#4a3345"><ellipse class="eye" cx="40" cy="60" rx="4.2" ry="5.8"/><ellipse class="eye" cx="80" cy="60" rx="4.2" ry="5.8"/></g>
 <circle cx="29" cy="72" r="6.5" fill="#ff9fc0" opacity=".7"/><circle cx="91" cy="72" r="6.5" fill="#ff9fc0" opacity=".7"/>
 <g transform="translate(89 21) rotate(14)" ${S}><path d="M0 0 L-17 -10 L-17 10 Z" fill="#ff6fa5"/><path d="M0 0 L17 -10 L17 10 Z" fill="#ff6fa5"/><circle r="5.2" fill="#ff9cc0"/></g></svg>`;
-const BUN=`<svg viewBox="0 0 120 100" width="100%" aria-hidden="true">
-<g ${S}><ellipse cx="38" cy="28" rx="11" ry="25" fill="#fff" transform="rotate(-8 38 28)"/><ellipse cx="82" cy="28" rx="11" ry="25" fill="#fff" transform="rotate(8 82 28)"/>
-<ellipse cx="60" cy="68" rx="43" ry="30" fill="#fff"/></g>
-<ellipse cx="38" cy="30" rx="5" ry="16" fill="#ffc2d6" transform="rotate(-8 38 30)"/><ellipse cx="82" cy="30" rx="5" ry="16" fill="#ffc2d6" transform="rotate(8 82 30)"/>
-<g fill="#4a3345"><ellipse class="eye" cx="44" cy="66" rx="4" ry="5.6"/><ellipse class="eye" cx="76" cy="66" rx="4" ry="5.6"/></g>
-<ellipse cx="60" cy="73" rx="4" ry="3" fill="#ff8fb0" stroke="#4a3345" stroke-width="2"/>
-<path d="M60 76 Q60 81 55 81 M60 76 Q60 81 65 81" fill="none" stroke="#4a3345" stroke-width="2.2" stroke-linecap="round"/>
-<circle cx="31" cy="76" r="6.5" fill="#ff9fc0" opacity=".7"/><circle cx="89" cy="76" r="6.5" fill="#ff9fc0" opacity=".7"/>
-<g transform="translate(88 50)" ${S}><path d="M0 0 L-12 -7 L-12 7 Z" fill="#9fd6ff"/><path d="M0 0 L12 -7 L12 7 Z" fill="#9fd6ff"/><circle r="4" fill="#cfe9ff"/></g></svg>`;
-const D='stroke="#5a3b1a" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"';
-const NAI=`<svg viewBox="0 0 120 120" width="100%" aria-hidden="true">
-<g ${D} fill="#ffd43b"><circle cx="43" cy="24" r="8"/><circle cx="77" cy="24" r="8"/>
-<ellipse cx="20" cy="84" rx="9" ry="7" transform="rotate(-30 20 84)"/><ellipse cx="100" cy="84" rx="9" ry="7" transform="rotate(30 100 84)"/>
-<ellipse cx="60" cy="68" rx="46" ry="44"/></g>
-<ellipse cx="60" cy="90" rx="27" ry="19" fill="#fff1b8"/>
-<g fill="#2b1d10"><circle class="eye" cx="43" cy="56" r="5.2"/><circle class="eye" cx="77" cy="56" r="5.2"/></g>
-<circle cx="41.5" cy="54.2" r="1.8" fill="#fff"/><circle cx="75.5" cy="54.2" r="1.8" fill="#fff"/>
-<ellipse cx="31" cy="69" rx="7.5" ry="4.8" fill="#ff9aa2" opacity=".85"/><ellipse cx="89" cy="69" rx="7.5" ry="4.8" fill="#ff9aa2" opacity=".85"/>
-<path d="M45 66 Q60 88 75 66 Z" fill="#7a2e1f" stroke="#5a3b1a" stroke-width="2.6" stroke-linejoin="round"/>
-<path d="M52 76 Q60 85 68 76 Q60 71 52 76 Z" fill="#ff7b8a"/></svg>`;
-const MAS={cat:CAT,bun:BUN,nai:NAI};
+const MAS={dog:DOG,cat:CAT};
 document.querySelectorAll("[data-m]").forEach(el=>{el.innerHTML=MAS[el.dataset.m]});
 
 /* ---------- 倒计时 ---------- */
@@ -292,57 +313,117 @@ setInterval(()=>{
   $("cd").textContent=`${pad(Math.floor(d/3.6e6))}:${pad(Math.floor(d%3.6e6/6e4))}:${pad(Math.floor(d%6e4/1e3))}.${Math.floor(d%1e3/100)}`;
 },100);
 
+/* ---------- 画布尺寸 ---------- */
+const fx=$("fx"),c=fx.getContext("2d"),bg=$("bg"),bc=bg.getContext("2d");
+let W=0,H=0;
+function resize(){
+  W=innerWidth;H=innerHeight;
+  for(const [cv,cx] of [[fx,c],[bg,bc]]){cv.width=W*dpr;cv.height=H*dpr;cx.setTransform(dpr,0,0,dpr,0,0)}
+}
+addEventListener("resize",resize);resize();
+
+/* ---------- 天空：飘动光斑 + 闪烁星芒 ---------- */
+const orbs=Array.from({length:16},()=>({x:rnd(0,W),y:rnd(0,H),r:rnd(24,80),vx:rnd(-.12,.12),vy:rnd(-.3,-.06),h:pick([200,205,330,280,45]),a:rnd(.18,.4),p:rnd(0,6)}));
+const twinks=Array.from({length:16},()=>({x:rnd(0,1),y:rnd(0,1),s:rnd(4,9),p:rnd(0,6),v:rnd(.02,.05)}));
+let tick=0;
+function drawBg(t){
+  requestAnimationFrame(drawBg);
+  if(tick++%2)return; // 约 30fps，省电
+  bc.clearRect(0,0,W,H);
+  for(const o of orbs){
+    o.x+=o.vx;o.y+=o.vy;if(o.y<-o.r){o.y=H+o.r;o.x=rnd(0,W)}
+    const al=o.a*(.6+.4*Math.sin(t/1400+o.p));
+    const g=bc.createRadialGradient(o.x,o.y,0,o.x,o.y,o.r);
+    g.addColorStop(0,`hsla(${o.h},100%,92%,${al})`);g.addColorStop(.6,`hsla(${o.h},100%,85%,${al*.5})`);g.addColorStop(1,`hsla(${o.h},100%,85%,0)`);
+    bc.fillStyle=g;bc.beginPath();bc.arc(o.x,o.y,o.r,0,7);bc.fill();
+  }
+  bc.fillStyle="#fff";
+  for(const s of twinks){
+    s.p+=s.v;const a=Math.max(0,Math.sin(s.p));if(a<.05)continue;
+    const x=s.x*W,y=s.y*H,r=s.s*a;
+    bc.globalAlpha=a;bc.beginPath();
+    bc.moveTo(x,y-r);bc.quadraticCurveTo(x,y,x+r,y);bc.quadraticCurveTo(x,y,x,y+r);bc.quadraticCurveTo(x,y,x-r,y);bc.quadraticCurveTo(x,y,x,y-r);
+    bc.fill();
+  }
+  bc.globalAlpha=1;
+}
+requestAnimationFrame(drawBg);
+
+/* ---------- 云朵 ---------- */
+for(let i=0;i<6;i++){
+  const e=document.createElement("div");e.className="cl";
+  const w=rnd(70,150);e.style.width=w+"px";e.style.height=w*.3+"px";
+  e.style.top=rnd(4,88)+"vh";e.style.opacity=rnd(.55,.95);
+  const dur=rnd(45,90);e.style.animationDuration=dur+"s";e.style.animationDelay=-rnd(0,dur)+"s";
+  document.body.insertBefore(e,$("pin"));
+}
+
 /* ---------- 漂浮贴纸 ---------- */
-const STK=["🎀","🌸","⭐","🍓","💗","🐱","🐰","🧸","🍭","☁️","✨","🍡"];
+const STK=["☁️","💙","🎀","⭐","🧁","🐶","🌸","✨","💗","🍓","🍭"];
 setInterval(()=>{
   const e=document.createElement("div");e.className="stk";
-  e.textContent=STK[Math.random()*STK.length|0];
-  e.style.left=rnd(0,100)+"vw";e.style.fontSize=rnd(18,38)+"px";e.style.animationDuration=rnd(7,13)+"s";
-  document.body.appendChild(e);setTimeout(()=>e.remove(),13500);
-},700);
+  e.textContent=pick(STK);
+  e.style.left=rnd(0,96)+"vw";e.style.fontSize=rnd(16,34)+"px";e.style.animationDuration=rnd(8,14)+"s";
+  document.body.insertBefore(e,$("pin"));setTimeout(()=>e.remove(),14500);
+},800);
 
-/* ---------- 粒子（糖果烟花 / 彩带） ---------- */
-const fx=$("fx"),c=fx.getContext("2d");
-let W=0,H=0,ps=[],raf=0;
-function resize(){W=innerWidth;H=innerHeight;fx.width=W*dpr;fx.height=H*dpr;c.setTransform(dpr,0,0,dpr,0,0)}
-addEventListener("resize",resize);resize();
-const CANDY=["#ff8fb8","#ffb3d1","#cdbcff","#bfe3ff","#bff2dc","#ffe99a","#ffc2a8"];
-const EM=["🎀","🌸","⭐","🍓","💗","🐱","🐰","🧸","🍭","✨"];
+/* ---------- 粒子：柔光点 / 星星 / 彩带 / 表情 ---------- */
+const CANDY=["#ff9ec4","#ffb3d1","#cdbcff","#8fd3ff","#a8ecd0","#ffe58a","#ffc2a8"];
+const EM=["🎀","🌸","⭐","💙","💗","🐶","☁️","🧁","🍭","✨"];
+const spr={};
+function glow(col){ // 预渲染柔光圆点，比 shadowBlur 省很多
+  if(spr[col])return spr[col];
+  const s=document.createElement("canvas");s.width=s.height=64;const g=s.getContext("2d");
+  const gr=g.createRadialGradient(32,32,0,32,32,32);
+  gr.addColorStop(0,"#fff");gr.addColorStop(.25,col);gr.addColorStop(.5,col+"aa");gr.addColorStop(1,col+"00");
+  g.fillStyle=gr;g.fillRect(0,0,64,64);return spr[col]=s;
+}
+function star(x,y,r,rot){
+  c.beginPath();
+  for(let i=0;i<10;i++){const a=rot+i*Math.PI/5,rr=i%2?r*.45:r;c.lineTo(x+Math.cos(a)*rr,y+Math.sin(a)*rr)}
+  c.closePath();c.fill();
+}
+let ps=[],raf=0;
 function kick(){if(!raf)raf=requestAnimationFrame(loop)}
+function add(p){ps.push(Object.assign({life:0,rot:rnd(0,6),vr:rnd(-.15,.15),col:pick(CANDY)},p))}
 function burst(x,y,n=30){
-  for(let i=0;i<n;i++){const a=rnd(0,6.28),s=rnd(2,7);
-    ps.push({x,y,vx:Math.cos(a)*s,vy:Math.sin(a)*s-2,g:.12,life:0,max:rnd(45,80),k:"dot",col:CANDY[Math.random()*CANDY.length|0],r:rnd(3,6)})}
+  for(let i=0;i<n;i++){const a=rnd(0,6.28),s=rnd(2,7.5);
+    add({x,y,vx:Math.cos(a)*s,vy:Math.sin(a)*s-2,g:.11,max:rnd(45,85),k:Math.random()<.35?"star":"dot",r:Math.random()<.35?rnd(5,9):rnd(10,18)})}
   kick();
 }
 function emojiBurst(x,y,n=10){
   for(let i=0;i<n;i++){const a=rnd(0,6.28),s=rnd(2,7);
-    ps.push({x,y,vx:Math.cos(a)*s,vy:Math.sin(a)*s-3,g:.12,life:0,max:rnd(70,110),k:"em",em:EM[Math.random()*EM.length|0],r:rnd(16,30)})}
+    add({x,y,vx:Math.cos(a)*s,vy:Math.sin(a)*s-3,g:.12,max:rnd(70,110),k:"em",em:pick(EM),r:rnd(16,30)})}
   kick();
 }
 function heartBurst(x,y,k=1){
-  for(let i=0;i<80;i++){const t=i/80*6.28;
+  for(let i=0;i<84;i++){const t=i/84*6.28;
     const hx=16*Math.pow(Math.sin(t),3),hy=-(13*Math.cos(t)-5*Math.cos(2*t)-2*Math.cos(3*t)-Math.cos(4*t));
-    ps.push({x,y,vx:hx*.34*k,vy:hy*.34*k,g:.012,life:0,max:105,k:"dot",col:i%2?"#ff8fb8":"#ffb3d1",r:4.2})}
+    add({x,y,vx:hx*.34*k,vy:hy*.34*k,g:.012,max:110,k:"dot",col:i%3?"#ff9ec4":"#8fd3ff",r:14})}
   kick();
 }
 function rain(n=70){
   for(let i=0;i<n;i++)setTimeout(()=>{
-    const em=Math.random()<.35;
-    ps.push({x:rnd(0,W),y:-20,vx:rnd(-1,1),vy:rnd(2.5,5),g:.01,life:0,max:rnd(150,230),rot:rnd(0,6),vr:rnd(-.2,.2),
-      k:em?"em":"rect",em:EM[Math.random()*EM.length|0],r:em?rnd(18,28):rnd(6,10),col:CANDY[Math.random()*CANDY.length|0]});
+    const r=Math.random();
+    add({x:rnd(0,W),y:-20,vx:rnd(-1,1),vy:rnd(2.2,4.6),g:.01,max:rnd(160,240),wob:rnd(0,6),
+      k:r<.3?"em":r<.55?"star":r<.8?"ribbon":"rect",em:pick(EM),r:r<.3?rnd(18,28):r<.55?rnd(5,8):rnd(7,11)});
     kick();
-  },i*40);
+  },i*38);
 }
+function ripple(x,y){const e=document.createElement("div");e.className="rip";e.style.left=x+"px";e.style.top=y+"px";document.body.appendChild(e);setTimeout(()=>e.remove(),750)}
 function loop(){
   c.clearRect(0,0,W,H);
   for(let i=ps.length-1;i>=0;i--){
-    const p=ps[i];p.life++;p.vy+=p.g;p.vx*=.985;p.x+=p.vx;p.y+=p.vy;
-    const a=Math.max(0,Math.min(1,(1-p.life/p.max)*2));
+    const p=ps[i];p.life++;p.vy+=p.g;p.vx*=.985;p.x+=p.vx;p.y+=p.vy;p.rot+=p.vr;
+    if(p.wob!==undefined){p.wob+=.08;p.x+=Math.sin(p.wob)*.8}
     if(p.life>p.max||p.y>H+40){ps.splice(i,1);continue}
+    const a=Math.max(0,Math.min(1,(1-p.life/p.max)*2));
     c.globalAlpha=a;
     if(p.k==="em"){c.font=`${p.r}px serif`;c.fillText(p.em,p.x,p.y)}
-    else if(p.k==="rect"){p.rot+=p.vr;c.save();c.translate(p.x,p.y);c.rotate(p.rot);c.fillStyle=p.col;c.fillRect(-p.r/2,-p.r/4,p.r,p.r/2);c.restore()}
-    else{c.fillStyle=p.col;c.beginPath();c.arc(p.x,p.y,p.r*(.5+a*.5),0,7);c.fill()}
+    else if(p.k==="dot"){const s=p.r*(.6+a*.4);c.drawImage(glow(p.col),p.x-s,p.y-s,s*2,s*2)}
+    else if(p.k==="star"){c.fillStyle=p.col;star(p.x,p.y,p.r,p.rot)}
+    else if(p.k==="ribbon"){c.save();c.translate(p.x,p.y);c.rotate(p.rot);c.scale(1,Math.sin(p.wob*2));c.fillStyle=p.col;c.fillRect(-p.r,-p.r/4,p.r*2,p.r/2);c.restore()}
+    else{c.save();c.translate(p.x,p.y);c.rotate(p.rot);c.fillStyle=p.col;c.fillRect(-p.r/2,-p.r/4,p.r,p.r/2);c.restore()}
   }
   c.globalAlpha=1;
   if(ps.length)raf=requestAnimationFrame(loop);else{raf=0;c.clearRect(0,0,W,H)}
@@ -353,21 +434,13 @@ const msgs=$("msgs");
 let fast=false,run=0;
 const sleep=ms=>new Promise(r=>setTimeout(r,fast?ms/4:ms));
 const down=()=>msgs.scrollTo({top:msgs.scrollHeight,behavior:"smooth"});
-const AV=`<div class="ava"><span class="mas">${NAI}</span></div>`;
-/* 奶龙表情包：wild=true 时疯狂摇摆 */
-async function sticker(id,wild){
-  if(id!==run)return false;
-  const r=addRow(`<span class="mas">${NAI}</span>`,false,"sticker"+(wild?" wild":""));
-  const b=r.querySelector(".bub").getBoundingClientRect();
-  emojiBurst(b.left+b.width/2,b.top+b.height/2,wild?14:6);
-  await sleep(1100);
-  return id===run;
-}
+const AV=`<div class="ava"><span class="mas">${DOG}</span></div>`;
 function addRow(html,me,cls=""){
   const r=document.createElement("div");r.className="row"+(me?" me":"");
   r.innerHTML=(me?"":AV)+`<div class="bub ${cls}">${html}</div>`;
   msgs.appendChild(r);down();return r;
 }
+function sparkAt(el,n){const b=el.getBoundingClientRect();burst(b.left+b.width/2,b.top+b.height/2,n)}
 async function bot(text,id,cls=""){
   $("st").textContent="对方正在输入…";
   const t=document.createElement("div");t.className="row typing";
@@ -378,16 +451,24 @@ async function bot(text,id,cls=""){
   if(id!==run)return false;
   $("st").textContent="在线";
   const r=addRow(sub(text),false,cls);
-  const b=r.querySelector(".bub").getBoundingClientRect();
-  emojiBurst(b.left+b.width/2,b.top+b.height/2,5);
+  sparkAt(r.querySelector(".bub"),10);
   await sleep(450);
+  return id===run;
+}
+/* 大耳朵狗表情包：wild=true 时疯狂摇摆、耳朵狂扇 */
+async function sticker(id,wild){
+  if(id!==run)return false;
+  const r=addRow(`<span class="mas">${DOG}</span>`,false,"sticker"+(wild?" wild":""));
+  const b=r.querySelector(".bub").getBoundingClientRect();
+  emojiBurst(b.left+b.width/2,b.top+b.height/2,wild?14:6);
+  await sleep(1100);
   return id===run;
 }
 function sysmsg(t){const d=document.createElement("div");d.className="sysmsg";d.innerHTML=`<span>${t}</span>`;msgs.appendChild(d);down()}
 
 async function play(){
   const id=++run;fast=false;
-  msgs.innerHTML="";$("chips").classList.remove("on");$("fake").style.display="flex";
+  msgs.innerHTML="";$("chips").classList.remove("on");$("fake").style.display="flex";$("tip").style.display="";
   $("no").classList.remove("run");$("no").style.cssText="";$("yes").style.transform="";noCount=0;$("no").textContent=NO_TEXTS[0];
   sysmsg("🎉 团长已拉你入团");
   rain(80);
@@ -404,6 +485,7 @@ let noCount=0;
 function dodge(e){
   if(e)e.preventDefault();
   const no=$("no");noCount++;
+  const r0=no.getBoundingClientRect();burst(r0.left+r0.width/2,r0.top+r0.height/2,8);
   no.textContent=NO_TEXTS[Math.min(noCount,NO_TEXTS.length-1)];
   no.classList.add("run");
   const bw=no.offsetWidth||110,bh=no.offsetHeight||48;
@@ -421,9 +503,10 @@ $("yes").addEventListener("click",async()=>{
   $("chips").classList.remove("on");$("no").classList.remove("run");$("fake").style.display="flex";
   if(navigator.vibrate)navigator.vibrate([70,50,70,50,160]);
   addRow("要！！！我愿意！！！🥰💗",true);
-  heartBurst(W/2,H*.4,1.5);rain(110);
-  setTimeout(()=>{heartBurst(W*.25,H*.35,1);},500);
-  setTimeout(()=>{heartBurst(W*.75,H*.35,1);},900);
+  heartBurst(W/2,H*.4,1.5);rain(120);ripple(W/2,H*.4);
+  setTimeout(()=>heartBurst(W*.25,H*.32,1),500);
+  setTimeout(()=>heartBurst(W*.75,H*.32,1),900);
+  setTimeout(()=>{burst(W*.5,H*.25,50);ripple(W*.5,H*.25)},1300);
   await sleep(900);
   if(!await bot("啊啊啊啊啊啊啊她说要！！！🎉🎉🎉",id))return;
   if(!await sticker(id,true))return;
@@ -431,27 +514,33 @@ $("yes").addEventListener("click",async()=>{
   if(!await bot("作为团员福利，团长给你准备了这些优惠券 🎁👇",id))return;
   for(const k of COUPONS){
     const d=document.createElement("div");d.className="cpn";
-    d.innerHTML=`<div class="l" style="background:${k.bg}">${k.e}</div><div class="r"><b>${k.t}</b><small>${k.s}</small><em>${k.tag}</em></div>`;
+    d.innerHTML=`<div class="l" style="background:${k.bg}">${k.e}</div><div class="r"><b>${k.t}</b><small>${k.s}</small><em>${k.tag}</em></div><span class="shine"></span>`;
     msgs.appendChild(d);down();
-    const b=d.getBoundingClientRect();emojiBurst(b.left+b.width/2,b.top+b.height/2,7);
+    const b=d.getBoundingClientRect();emojiBurst(b.left+b.width/2,b.top+b.height/2,6);burst(b.left+b.width/2,b.top+b.height/2,14);
     await sleep(900);if(id!==run)return;
   }
   if(!await bot("以上所有券，仅限 {TO} 本人使用，永不过期，不可转让 💌",id))return;
-  if(!await bot("以后的每一天，都想和你一起，把可爱的事做个遍 🌸🐱🐰",id))return;
+  if(!await bot("以后的每一天，都想和你一起，把可爱的事做个遍 ☁️🐶💗",id))return;
   addRow("—— "+FROM+" 🎀",false,"");
-  rain(60);emojiBurst(W/2,H*.5,18);
+  rain(70);emojiBurst(W/2,H*.5,18);heartBurst(W/2,H*.45,1.2);
   const b=document.createElement("button");b.className="replay";b.textContent="再看一遍 ↺";b.onclick=()=>play();
   msgs.appendChild(b);down();
 });
 
-/* 点屏幕：撒花 + 加速 */
+/* 点屏幕：水波 + 撒花 + 加速；滑动：星星拖尾 */
 $("chat").addEventListener("pointerdown",e=>{
   if(e.target.closest("button"))return;
-  fast=true;burst(e.clientX,e.clientY,18);emojiBurst(e.clientX,e.clientY,4);
+  fast=true;ripple(e.clientX,e.clientY);burst(e.clientX,e.clientY,20);emojiBurst(e.clientX,e.clientY,4);
+});
+let lastT=0;
+$("chat").addEventListener("pointermove",e=>{
+  const n=performance.now();if(n-lastT<40)return;lastT=n;
+  add({x:e.clientX,y:e.clientY,vx:rnd(-1,1),vy:rnd(-1.5,0),g:.03,max:rnd(25,45),k:Math.random()<.5?"star":"dot",r:rnd(4,10)});kick();
 });
 
 /* ---------- 参团 ---------- */
-function join(){
+function join(e){
+  if(e)ripple(e.clientX,e.clientY);
   const l=$("loading"),t=$("ltxt");
   l.style.display="flex";t.textContent="正在联系团长…";
   setTimeout(()=>t.textContent="正在核对身份：是刘紫依本人吗？🔍",900);
@@ -459,6 +548,7 @@ function join(){
   setTimeout(()=>{
     l.style.display="none";
     const s=$("slot");s.className="av filled";s.textContent="👸";
+    $("pin").style.display="none";
     $("chat").style.display="flex";
     resize();play();
     if(navigator.vibrate)navigator.vibrate([60,40,60]);
